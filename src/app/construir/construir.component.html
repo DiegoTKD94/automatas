@@ -1,1 +1,53 @@
-<p>construir works!</p>
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <form class="example-form">
+
+                    <mat-form-field class="example-chip-list">
+                        <mat-chip-list #chipEstados aria-label="Estado selection">
+                            <mat-chip *ngFor="let simbolo of simbolos" maxlength="1" [selectable]="selectable" [removable]="removable" (removed)="remove(simbolo)">
+                                {{simbolo.value}}
+                                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                            </mat-chip>
+                            <input placeholder="Agregar símbolo de entrada..." maxlength="1" [matChipInputFor]="chipEstados" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)">
+                        </mat-chip-list>
+                    </mat-form-field>
+
+                    <mat-form-field class="example-chip-list">
+                        <mat-chip-list #chipList aria-label="Fruit selection">
+                            <mat-chip *ngFor="let estado of estados" [selectable]="selectable" [removable]="removable" (removed)="remove(estado)">
+                                {{estado.name}}
+                                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                            </mat-chip>
+                            <input placeholder="Agregar estado..." [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)">
+                        </mat-chip-list>
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <mat-label>Estado inicial</mat-label>
+                        <mat-select>
+                            <mat-option *ngFor="let estado of estados" [value]="estado">
+                                {{estado.name}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <mat-label>Estados de aceptación</mat-label>
+                        <mat-select multiple>
+                            <mat-option *ngFor="let estado of estados" [value]="estado">{{estado.name}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <!-- <mat-form-field class="example-full-width">
+                        <input matInput placeholder="Estados de aceptación:" [formControl]="estadosAceptacion">
+                        <mat-error *ngIf="estadosAceptacion.hasError('required')">
+                            El autómata necesita al menos un estado de aceptación
+                        </mat-error>
+                    </mat-form-field> -->
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
