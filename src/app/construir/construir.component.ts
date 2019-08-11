@@ -3,13 +3,14 @@ import {FormControl, Validators} from '@angular/forms';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {MatChipInputEvent} from '@angular/material/chips';
 
-// Chips
 export interface Estado {
   name: string;
+  inicial: boolean;
+  aceptacion: boolean;
 }
 
 export interface Simbolo {
-  value: string;
+  name: string;
 }
 
 @Component({
@@ -17,31 +18,19 @@ export interface Simbolo {
   templateUrl: './construir.component.html',
   styles: []
 })
+
 export class ConstruirComponent implements OnInit {
-  // Chips
+
+  // BLOQUE USADO EN EL CHIPS
   visible = true;
   selectable = true;
   removable = true;
   addOnBlur = true;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
-
-  simbolosEntrada: Simbolo[] = [];
-
-  estados: Estado[] = [
-    {name: 'Lemon'},
-    {name: 'Lime'},
-    {name: 'Apple'},
-  ];
+  estados: Estado[] = [];
+  simbolos: Simbolo[] = [];
 
   constructor() { }
-
-  // simbolosEntrada = new FormControl('', [
-  //   Validators.required,
-  // ]);
-
-  // estados = new FormControl('', [
-  //   Validators.required,
-  // ]);
 
   estadoInicial = new FormControl('', [
     Validators.required,
@@ -55,13 +44,12 @@ export class ConstruirComponent implements OnInit {
   }
 
   add(event: MatChipInputEvent): void {
-    console.log(event);
     const input = event.input;
     const value = event.value;
 
     // Add our fruit
     if ((value || '').trim()) {
-      this.estados.push({name: value.trim()});
+      this.estados.push({name: value.trim(), inicial: false, aceptacion: false});
     }
 
     // Reset the input value
@@ -70,11 +58,34 @@ export class ConstruirComponent implements OnInit {
     }
   }
 
-  remove(estado: Estado): void {
-    const index = this.estados.indexOf(estado);
+  remove(fruit: Estado): void {
+    const index = this.estados.indexOf(fruit);
 
     if (index >= 0) {
       this.estados.splice(index, 1);
+    }
+  }
+
+  addSimb(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
+
+    // Add our fruit
+    if ((value || '').trim()) {
+      this.simbolos.push({name: value.trim()});
+    }
+
+    // Reset the input value
+    if (input) {
+      input.value = '';
+    }
+  }
+
+  removeSimb(simbolo: Simbolo): void {
+    const index = this.simbolos.indexOf(simbolo);
+
+    if (index >= 0) {
+      this.simbolos.splice(index, 1);
     }
   }
 }
